@@ -57,13 +57,14 @@ operator-sdk:
 
 ocs-operator-openshift-ci-build: build
 
-build: build-go
+build: deps-update generate build-go
 
-build-go: deps-update generate
+# Do not update/generate deps to ensures a consistent build with the current vendored deps.
+build-go:
 	@echo "Building the ocs-operator binary"
 	hack/go-build.sh
 
-build-container:
+build-container: deps-update generate
 	@echo "Building the ocs-operator binary (containerized)"
 	hack/build-container.sh
 
